@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,24 +29,27 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <a href="#" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <span className="text-2xl font-bold text-thrive-blue dark:text-white">
             Thrive<span className="text-thrive-green">Link</span>
           </span>
-        </a>
+        </Link>
         
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
-          <a href="#about" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
+          <Link to="/about" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
+            About Us
+          </Link>
+          <a href="/#about" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
             About
           </a>
-          <a href="#how-it-works" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
+          <a href="/#how-it-works" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
             How It Works
           </a>
-          <a href="#testimonials" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
+          <a href="/#testimonials" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
             Testimonials
           </a>
-          <a href="#events" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
+          <a href="/#events" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
             Events
           </a>
           <Button className="ml-4">Join Now</Button>
@@ -74,29 +78,36 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 shadow-md">
           <div className="container mx-auto px-4 py-3 space-y-3">
+            <Link 
+              to="/about"
+              className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              About Us
+            </Link>
             <a 
-              href="#about"
+              href="/#about"
               className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
               onClick={() => setMobileMenuOpen(false)}
             >
               About
             </a>
             <a 
-              href="#how-it-works" 
+              href="/#how-it-works" 
               className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
               onClick={() => setMobileMenuOpen(false)}
             >
               How It Works
             </a>
             <a 
-              href="#testimonials" 
+              href="/#testimonials" 
               className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
               onClick={() => setMobileMenuOpen(false)}
             >
               Testimonials
             </a>
             <a 
-              href="#events" 
+              href="/#events" 
               className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
               onClick={() => setMobileMenuOpen(false)}
             >
