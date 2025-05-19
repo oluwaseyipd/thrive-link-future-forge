@@ -2,11 +2,13 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from 'react-router-dom';
+import { useFormContext } from './forms/FormProvider';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { openJoinCommunityForm } = useFormContext();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,12 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <Button className="ml-4">Join Now</Button>
+          <Button 
+            className="ml-4" 
+            onClick={openJoinCommunityForm}
+          >
+            Join Now
+          </Button>
         </div>
         
         {/* Mobile menu button */}
@@ -103,7 +110,13 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Button className="w-full" onClick={() => setMobileMenuOpen(false)}>
+            <Button 
+              className="w-full" 
+              onClick={() => {
+                openJoinCommunityForm();
+                setMobileMenuOpen(false);
+              }}
+            >
               Join Now
             </Button>
           </div>

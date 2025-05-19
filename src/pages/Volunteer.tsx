@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,11 +6,14 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Users, BookOpen, GraduationCap, Briefcase } from "lucide-react";
+import { useFormContext } from "@/components/forms/FormProvider";
 
 const Volunteer = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const { openVolunteerForm } = useFormContext();
 
   const volunteerRoles = [
     {
@@ -70,7 +72,13 @@ const Volunteer = () => {
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
               Share your skills, knowledge, and passion to help the next generation of tech professionals thrive.
             </p>
-            <Button size="lg" className="bg-thrive-blue hover:bg-blue-700">Apply to Volunteer</Button>
+            <Button 
+              size="lg" 
+              className="bg-thrive-blue hover:bg-blue-700"
+              onClick={openVolunteerForm}
+            >
+              Apply to Volunteer
+            </Button>
           </div>
         </div>
       </section>
@@ -258,7 +266,13 @@ const Volunteer = () => {
               </div>
               
               <div className="mt-12 text-center">
-                <Button size="lg" className="bg-thrive-blue hover:bg-blue-700">Apply Now</Button>
+                <Button 
+                  size="lg" 
+                  className="bg-thrive-blue hover:bg-blue-700"
+                  onClick={openVolunteerForm}
+                >
+                  Apply Now
+                </Button>
               </div>
             </div>
           </div>
@@ -324,7 +338,11 @@ const Volunteer = () => {
             Join our volunteer team and help shape the future of tech by supporting the next generation of professionals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50">
+            <Button 
+              size="lg" 
+              className="bg-white text-blue-600 hover:bg-blue-50"
+              onClick={openVolunteerForm}
+            >
               Apply to Volunteer
             </Button>
             <Button size="lg" variant="outline" className="text-white border-white hover:bg-blue-700">
