@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,20 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const navLinks = [
+    { name: "About", path: "/about" },
+    { name: "Programs", path: "/programs" },
+    { name: "Community", path: "/community" },
+    { name: "Events", path: "/events" },
+    { name: "Resources", path: "/resources" },
+    { name: "Volunteer", path: "/volunteer" },
+    { name: "Testimonials", path: "/testimonials" },
+    { name: "FAQ", path: "/faq" },
+    { name: "Contact", path: "/contact" }
+  ];
 
   return (
     <nav 
@@ -36,22 +51,18 @@ const Navbar = () => {
         </Link>
         
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/about" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
-            About Us
-          </Link>
-          <a href="/#about" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
-            About
-          </a>
-          <a href="/#how-it-works" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
-            How It Works
-          </a>
-          <a href="/#testimonials" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
-            Testimonials
-          </a>
-          <a href="/#events" className="text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors">
-            Events
-          </a>
+        <div className="hidden md:flex items-center space-x-4">
+          {navLinks.map((link) => (
+            <Link 
+              key={link.path}
+              to={link.path} 
+              className={`text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue transition-colors px-2 py-1 rounded ${
+                isActive(link.path) ? 'font-medium text-thrive-blue dark:text-thrive-blue bg-blue-50 dark:bg-blue-900/20' : ''
+              }`}
+            >
+              {link.name}
+            </Link>
+          ))}
           <Button className="ml-4">Join Now</Button>
         </div>
         
@@ -78,41 +89,20 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white dark:bg-gray-900 shadow-md">
           <div className="container mx-auto px-4 py-3 space-y-3">
-            <Link 
-              to="/about"
-              className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About Us
-            </Link>
-            <a 
-              href="/#about"
-              className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              About
-            </a>
-            <a 
-              href="/#how-it-works" 
-              className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              How It Works
-            </a>
-            <a 
-              href="/#testimonials" 
-              className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Testimonials
-            </a>
-            <a 
-              href="/#events" 
-              className="block text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Events
-            </a>
+            {navLinks.map((link) => (
+              <Link 
+                key={link.path}
+                to={link.path}
+                className={`block px-3 py-2 rounded-md ${
+                  isActive(link.path) 
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-thrive-blue dark:text-thrive-blue font-medium' 
+                    : 'text-gray-700 dark:text-gray-200 hover:text-thrive-blue dark:hover:text-thrive-blue hover:bg-gray-50 dark:hover:bg-gray-800'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
             <Button className="w-full" onClick={() => setMobileMenuOpen(false)}>
               Join Now
             </Button>
