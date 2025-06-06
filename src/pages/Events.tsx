@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,9 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Clock } from "lucide-react";
 import ProposeEventForm from "@/components/forms/ProposeEventForm";
+import EventRegistrationForm from "@/components/forms/EventRegistrationForm";
+import EventDetailModal from "@/components/forms/EventDetailModal";
 
 const Events = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -77,6 +83,21 @@ const Events = () => {
       image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
     }
   ];
+
+  const handleLearnMore = (event: any) => {
+    setSelectedEvent(event);
+    setIsDetailModalOpen(true);
+  };
+
+  const handleRegister = (event: any) => {
+    setSelectedEvent(event);
+    setIsRegistrationOpen(true);
+  };
+
+  const handleRegisterFromModal = () => {
+    setIsDetailModalOpen(false);
+    setIsRegistrationOpen(true);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -183,8 +204,8 @@ const Events = () => {
                     <p className="text-sm text-thrive-blue mb-4">{event.location}</p>
                     <p className="text-gray-600 dark:text-gray-300 mb-6">{event.description}</p>
                     <div className="flex justify-between items-center">
-                      <Button variant="outline">Learn More</Button>
-                      <Button className="bg-thrive-blue hover:bg-blue-700">Register</Button>
+                      <Button variant="outline" onClick={() => handleLearnMore(event)}>Learn More</Button>
+                      <Button className="bg-thrive-blue hover:bg-blue-700" onClick={() => handleRegister(event)}>Register</Button>
                     </div>
                   </CardContent>
                 </Card>
@@ -288,8 +309,19 @@ const Events = () => {
 
       <Footer />
 
-      {/* Propose Event Form Modal */}
+      {/* Modals */}
       <ProposeEventForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
+      <EventRegistrationForm 
+        isOpen={isRegistrationOpen} 
+        onClose={() => setIsRegistrationOpen(false)} 
+        event={selectedEvent}
+      />
+      <EventDetailModal 
+        isOpen={isDetailModalOpen} 
+        onClose={() => setIsDetailModalOpen(false)} 
+        onRegister={handleRegisterFromModal}
+        event={selectedEvent}
+      />
     </div>
   );
 };
