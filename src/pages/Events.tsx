@@ -1,5 +1,4 @@
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -7,8 +6,11 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Clock } from "lucide-react";
+import ProposeEventForm from "@/components/forms/ProposeEventForm";
 
 const Events = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -251,7 +253,12 @@ const Events = () => {
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
                     Are you an expert in a tech-related field? Share your knowledge by hosting a workshop, webinar, or talk for the Thrive Link community.
                   </p>
-                  <Button className="bg-thrive-blue hover:bg-blue-700">Propose an Event</Button>
+                  <Button 
+                    className="bg-thrive-blue hover:bg-blue-700"
+                    onClick={() => setIsFormOpen(true)}
+                  >
+                    Propose an Event
+                  </Button>
                 </div>
               </div>
             </div>
@@ -280,6 +287,9 @@ const Events = () => {
       </section>
 
       <Footer />
+
+      {/* Propose Event Form Modal */}
+      <ProposeEventForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} />
     </div>
   );
 };
