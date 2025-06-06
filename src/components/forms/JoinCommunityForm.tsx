@@ -1,37 +1,23 @@
+
 import { useState } from "react"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { X, User, Mail, Phone, MapPin, Briefcase, Star } from "lucide-react"
+import { X } from "lucide-react"
 import { toast } from "sonner"
 
 import Modal from "@/components/ui/modal"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { Form } from "@/components/ui/form"
 import SuccessModal from "@/components/forms/SuccessModal"
+import PersonalInfoSection from "@/components/forms/PersonalInfoSection"
+import LocationSection from "@/components/forms/LocationSection"
+import TechInterestSection from "@/components/forms/TechInterestSection"
+import StatusSection from "@/components/forms/StatusSection"
+import VolunteerSection from "@/components/forms/VolunteerSection"
+import ProfileUrlSection from "@/components/forms/ProfileUrlSection"
+import HopesSection from "@/components/forms/HopesSection"
+import ConsentSection from "@/components/forms/ConsentSection"
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: "Name must be at least 2 characters" }),
@@ -108,18 +94,6 @@ const JoinCommunityForm = ({ isOpen, onClose }: JoinCommunityFormProps) => {
     form.reset()
   }
 
-  const techInterests = [
-    "Frontend Development",
-    "Backend Development",
-    "Data Science / ML",
-    "Cybersecurity",
-    "UI/UX Design",
-    "Mobile Dev",
-    "Product Management",
-    "Game Development",
-    "Other"
-  ]
-
   return (
     <>
       <Modal 
@@ -148,335 +122,20 @@ const JoinCommunityForm = ({ isOpen, onClose }: JoinCommunityFormProps) => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                  {/* Full Name */}
-                  <FormField
+                  <PersonalInfoSection control={form.control} />
+                  <LocationSection control={form.control} />
+                  <TechInterestSection 
                     control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">Full Name</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <User className="absolute left-3 top-2.5 h-4 w-4 md:h-5 md:w-5 text-gray-400" />
-                            <Input placeholder="John Doe" className="pl-10 h-10" {...field} />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    showOtherTechInput={showOtherTechInput}
+                    onTechInterestChange={handleTechInterestChange}
                   />
-                  
-                  {/* Email */}
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">Email Address</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Mail className="absolute left-3 top-2.5 h-4 w-4 md:h-5 md:w-5 text-gray-400" />
-                            <Input placeholder="email@example.com" className="pl-10 h-10" {...field} />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  {/* Phone */}
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">Phone Number (Optional)</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Phone className="absolute left-3 top-2.5 h-4 w-4 md:h-5 md:w-5 text-gray-400" />
-                            <Input placeholder="+1 234 567 8900" className="pl-10 h-10" {...field} />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Country */}
-                  <FormField
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">Country</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <MapPin className="absolute left-3 top-2.5 h-4 w-4 md:h-5 md:w-5 text-gray-400" />
-                            <Input placeholder="Your country" className="pl-10 h-10" {...field} />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  {/* City */}
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">City</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Your city" className="h-10" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Tech Interest */}
-                  <FormField
-                    control={form.control}
-                    name="techInterest"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">Primary Tech Interest</FormLabel>
-                        <Select 
-                          onValueChange={(value) => {
-                            field.onChange(value)
-                            handleTechInterestChange(value)
-                          }} 
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger className="h-10">
-                              <SelectValue placeholder="Select your primary interest" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {techInterests.map((interest) => (
-                              <SelectItem key={interest} value={interest}>
-                                {interest}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Other Tech Interest */}
-                  {showOtherTechInput && (
-                    <FormField
-                      control={form.control}
-                      name="otherTechInterest"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-sm">Specify Other Interest</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Your tech interest" className="h-10" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
-
-                  {/* Skill Level */}
-                  <FormField
-                    control={form.control}
-                    name="skillLevel"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3 md:col-span-2">
-                        <FormLabel className="text-sm">Skill Level</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0"
-                          >
-                            <FormItem className="flex items-center space-x-2">
-                              <FormControl>
-                                <RadioGroupItem value="Beginner" />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">
-                                Beginner
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2">
-                              <FormControl>
-                                <RadioGroupItem value="Intermediate" />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">
-                                Intermediate
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2">
-                              <FormControl>
-                                <RadioGroupItem value="Advanced" />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">
-                                Advanced
-                              </FormLabel>
-                            </FormItem>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Status */}
-                  <FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">Current Status</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="h-10">
-                              <SelectValue placeholder="Select your status" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="Student">Student</SelectItem>
-                            <SelectItem value="Graduate">Graduate</SelectItem>
-                            <SelectItem value="Working">Working</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* How heard about */}
-                  <FormField
-                    control={form.control}
-                    name="heardFrom"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm">How did you hear about Thrive Link?</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="h-10">
-                              <SelectValue placeholder="Select option" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="Social Media">Social Media</SelectItem>
-                            <SelectItem value="Friend/Colleague">Friend/Colleague</SelectItem>
-                            <SelectItem value="Search Engine">Search Engine</SelectItem>
-                            <SelectItem value="Event/Conference">Event/Conference</SelectItem>
-                            <SelectItem value="Other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Profile URL */}
-                  <FormField
-                    control={form.control}
-                    name="profileUrl"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel className="text-sm">LinkedIn/GitHub/Portfolio URL (Optional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="https://..." className="h-10" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Volunteer Interest */}
-                  <FormField
-                    control={form.control}
-                    name="volunteer"
-                    render={({ field }) => (
-                      <FormItem className="space-y-3 md:col-span-2">
-                        <FormLabel className="text-sm">Would you be interested in volunteering?</FormLabel>
-                        <FormControl>
-                          <RadioGroup
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                            className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0"
-                          >
-                            <FormItem className="flex items-center space-x-2">
-                              <FormControl>
-                                <RadioGroupItem value="Yes" />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">
-                                Yes
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2">
-                              <FormControl>
-                                <RadioGroupItem value="No" />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">
-                                No
-                              </FormLabel>
-                            </FormItem>
-                            <FormItem className="flex items-center space-x-2">
-                              <FormControl>
-                                <RadioGroupItem value="Maybe Later" />
-                              </FormControl>
-                              <FormLabel className="font-normal text-sm">
-                                Maybe Later
-                              </FormLabel>
-                            </FormItem>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <StatusSection control={form.control} />
+                  <ProfileUrlSection control={form.control} />
+                  <VolunteerSection control={form.control} />
                 </div>
 
-                {/* Hopes */}
-                <FormField
-                  control={form.control}
-                  name="hopes"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm">What do you hope to gain from Thrive Link?</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder="Tell us what you're looking to achieve..."
-                          className="min-h-20 resize-none"
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Consent */}
-                <FormField
-                  control={form.control}
-                  name="consent"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-3 md:p-4">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className="text-sm">
-                          I agree to receive emails and updates from Thrive Link
-                        </FormLabel>
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                <HopesSection control={form.control} />
+                <ConsentSection control={form.control} />
 
                 <Button type="submit" className="w-full h-11">Join the Community</Button>
               </form>
