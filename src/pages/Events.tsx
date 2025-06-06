@@ -99,6 +99,12 @@ const Events = () => {
     setIsRegistrationOpen(true);
   };
 
+  const handleRegisterNextEvent = () => {
+    // Set the first upcoming event (Web Development Bootcamp) as selected
+    setSelectedEvent(upcomingEvents[0]);
+    setIsRegistrationOpen(true);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -143,7 +149,12 @@ const Events = () => {
                     A comprehensive bootcamp covering HTML, CSS, and JavaScript fundamentals for beginners. 
                     Join us for a day of learning and hands-on practice.
                   </p>
-                  <Button className="bg-thrive-blue hover:bg-blue-700">Register Now</Button>
+                  <Button 
+                    className="bg-thrive-blue hover:bg-blue-700"
+                    onClick={handleRegisterNextEvent}
+                  >
+                    Register Now
+                  </Button>
                 </div>
                 <div className="md:w-1/2">
                   <div className="grid grid-cols-2 gap-4">
