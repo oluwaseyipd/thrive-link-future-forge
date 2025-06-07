@@ -1,5 +1,4 @@
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -7,8 +6,13 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Briefcase, GraduationCap, Rocket, Users } from "lucide-react";
+import MentorshipApplicationForm from "@/components/forms/MentorshipApplicationForm";
+import CareerSupportForm from "@/components/forms/CareerSupportForm";
 
 const Programs = () => {
+  const [mentorshipFormOpen, setMentorshipFormOpen] = useState(false);
+  const [careerSupportFormOpen, setCareerSupportFormOpen] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -69,7 +73,13 @@ const Programs = () => {
                     Regular check-ins and progress tracking
                   </li>
                 </ul>
-                <Button size="lg" className="bg-thrive-blue hover:bg-blue-700">Apply for Mentorship</Button>
+                <Button 
+                  size="lg" 
+                  className="bg-thrive-blue hover:bg-blue-700"
+                  onClick={() => setMentorshipFormOpen(true)}
+                >
+                  Apply for Mentorship
+                </Button>
               </div>
               <div className="lg:w-1/2">
                 <div className="relative rounded-xl overflow-hidden shadow-xl">
@@ -167,7 +177,13 @@ const Programs = () => {
                     Job search strategies and networking opportunities
                   </li>
                 </ul>
-                <Button size="lg" className="bg-thrive-blue hover:bg-blue-700">Get Career Support</Button>
+                <Button 
+                  size="lg" 
+                  className="bg-thrive-blue hover:bg-blue-700"
+                  onClick={() => setCareerSupportFormOpen(true)}
+                >
+                  Get Career Support
+                </Button>
               </div>
               <div className="lg:w-1/2">
                 <div className="relative rounded-xl overflow-hidden shadow-xl">
@@ -253,6 +269,16 @@ const Programs = () => {
       </section>
 
       <Footer />
+
+      {/* Forms */}
+      <MentorshipApplicationForm 
+        isOpen={mentorshipFormOpen} 
+        onClose={() => setMentorshipFormOpen(false)} 
+      />
+      <CareerSupportForm 
+        isOpen={careerSupportFormOpen} 
+        onClose={() => setCareerSupportFormOpen(false)} 
+      />
     </div>
   );
 };
