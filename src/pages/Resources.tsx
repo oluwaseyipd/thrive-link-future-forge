@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { BookOpen, Search, BookOpenCheck, GraduationCap, Briefcase } from "lucide-react";
+import ArticleSubmissionModal from "@/components/forms/ArticleSubmissionModal";
 
 const Resources = () => {
   useEffect(() => {
@@ -16,6 +16,7 @@ const Resources = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
+  const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
 
   const resources = [
     {
@@ -246,7 +247,12 @@ const Resources = () => {
                       Publish original research or case studies
                     </li>
                   </ul>
-                  <Button className="bg-thrive-blue hover:bg-blue-700">Submit an Article</Button>
+                  <Button 
+                    className="bg-thrive-blue hover:bg-blue-700"
+                    onClick={() => setIsArticleModalOpen(true)}
+                  >
+                    Submit an Article
+                  </Button>
                 </div>
                 <div className="md:w-1/2 h-80 md:h-auto">
                   <img 
@@ -282,6 +288,12 @@ const Resources = () => {
       </section>
 
       <Footer />
+
+      {/* Article Submission Modal */}
+      <ArticleSubmissionModal 
+        isOpen={isArticleModalOpen}
+        onClose={() => setIsArticleModalOpen(false)}
+      />
     </div>
   );
 };
