@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,6 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
+import TestimonialSubmissionForm from "@/components/forms/TestimonialSubmissionForm";
 
 const Testimonials = () => {
   useEffect(() => {
@@ -14,6 +14,7 @@ const Testimonials = () => {
   }, []);
 
   const [filter, setFilter] = useState("all");
+  const [isSubmissionFormOpen, setIsSubmissionFormOpen] = useState(false);
 
   const testimonials = [
     {
@@ -295,7 +296,7 @@ const Testimonials = () => {
         </section>
       </ScrollReveal>
 
-      {/* Share Your Story Section */}
+      {/* Share Your Story Section - Updated with modal integration */}
       <ScrollReveal delay={200}>
         <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
           <div className="container mx-auto px-4">
@@ -307,7 +308,11 @@ const Testimonials = () => {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-thrive-blue hover:bg-blue-700">
+                <Button 
+                  size="lg" 
+                  className="bg-thrive-blue hover:bg-blue-700"
+                  onClick={() => setIsSubmissionFormOpen(true)}
+                >
                   Submit Written Testimonial
                 </Button>
                 <Button size="lg" variant="outline">
@@ -340,6 +345,12 @@ const Testimonials = () => {
       </section>
 
       <Footer />
+
+      {/* Testimonial Submission Form Modal */}
+      <TestimonialSubmissionForm
+        isOpen={isSubmissionFormOpen}
+        onClose={() => setIsSubmissionFormOpen(false)}
+      />
     </div>
   );
 };
