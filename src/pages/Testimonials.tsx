@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
 import TestimonialSubmissionForm from "@/components/forms/TestimonialSubmissionForm";
+import VideoTestimonialUploadModal from "@/components/forms/VideoTestimonialUploadModal";
 
 const Testimonials = () => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const Testimonials = () => {
 
   const [filter, setFilter] = useState("all");
   const [isSubmissionFormOpen, setIsSubmissionFormOpen] = useState(false);
+  const [isVideoUploadOpen, setIsVideoUploadOpen] = useState(false);
 
   const testimonials = [
     {
@@ -296,7 +298,7 @@ const Testimonials = () => {
         </section>
       </ScrollReveal>
 
-      {/* Share Your Story Section - Updated with modal integration */}
+      {/* Share Your Story Section - Updated with both modals */}
       <ScrollReveal delay={200}>
         <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900">
           <div className="container mx-auto px-4">
@@ -315,7 +317,11 @@ const Testimonials = () => {
                 >
                   Submit Written Testimonial
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  onClick={() => setIsVideoUploadOpen(true)}
+                >
                   Record Video Testimonial
                 </Button>
               </div>
@@ -346,10 +352,15 @@ const Testimonials = () => {
 
       <Footer />
 
-      {/* Testimonial Submission Form Modal */}
+      {/* Modal Components */}
       <TestimonialSubmissionForm
         isOpen={isSubmissionFormOpen}
         onClose={() => setIsSubmissionFormOpen(false)}
+      />
+      
+      <VideoTestimonialUploadModal
+        isOpen={isVideoUploadOpen}
+        onClose={() => setIsVideoUploadOpen(false)}
       />
     </div>
   );
